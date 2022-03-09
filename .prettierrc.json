@@ -1,0 +1,17 @@
+{
+  "semi": false,
+  "singleQuote": true,
+  "jsxSingleQuote": true,
+  "tabWidth": 4,
+  "bracketSpacing": true,
+  "printWidth": 100,
+  "importOrder": [
+    "react",
+    "@chakra-ui/react",
+    "<THIRD_PARTY_MODULES>",
+    "^[./]"
+  ],
+  "importOrderSeparation": true,
+  "importOrderSortSpecifiers": true,
+  "importOrderCaseInsensitive": true
+}

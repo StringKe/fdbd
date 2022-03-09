@@ -20,13 +20,12 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
-  },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
+    "eject": "react-scripts eject",
+    "lint": "yarn lint:eslint && yarn lint:prettier",
+    "lint:eslint": "eslint --ignore-path .gitignore --fix --ext .js,.ts,.tsx .",
+    "lint:prettier": "prettier --write \"src/**/*.{js,jsx,ts,tsx,json,css,scss,md}\"",
+    "commit": "cz",
+    "prepare": "husky install"
   },
   "browserslist": {
     "production": [
@@ -39,5 +38,23 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^16.2.1",
+    "@commitlint/config-conventional": "^16.2.1",
+    "@trivago/prettier-plugin-sort-imports": "^3.2.0",
+    "commitizen": "^4.2.4",
+    "commitlint": "^16.2.1",
+    "cz-conventional-changelog": "^3.3.0",
+    "eslint": "^8.10.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-prettier": "^4.0.0",
+    "husky": "^7.0.0",
+    "prettier": "^2.5.1"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
   }
 }
