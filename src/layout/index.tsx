@@ -1,9 +1,11 @@
 import React from 'react'
 
+import CleanLayout from './CleanLayout'
 import DefaultLayout from './DefaultLayout'
 
 const layouts = {
     default: DefaultLayout,
+    clean: CleanLayout,
 }
 
 declare type Layouts = typeof layouts
