@@ -20,6 +20,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
+    "test:quite": "react-scripts test --watchAll=false",
     "eject": "react-scripts eject",
     "lint": "yarn lint:eslint && yarn lint:prettier",
     "lint:eslint": "eslint --ignore-path .gitignore --fix --ext .js,.ts,.tsx .",
