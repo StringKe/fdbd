@@ -13,8 +13,10 @@ import {
     ModalBody,
     ModalCloseButton,
     ModalContent,
+    ModalFooter,
     ModalHeader,
     ModalOverlay,
+    useClipboard,
     useDisclosure,
     VStack,
 } from '@chakra-ui/react'
@@ -34,6 +36,8 @@ function SQLPreview() {
     const [sqlType, setSqlType] = React.useState<'mysql' | 'postgres' | 'json' | 'mssql'>('mysql')
     const [sqlRaw, setSqlRaw] = React.useState('')
 
+    const { hasCopied, onCopy } = useClipboard(sqlRaw)
+
     React.useEffect(() => {
         if (dbmlRaw) {
             try {
@@ -52,7 +56,7 @@ function SQLPreview() {
                 SQL 预览
             </Button>
 
-            <Modal onClose={onClose} isOpen={isOpen} isCentered size={'2xl'}>
+            <Modal onClose={onClose} isOpen={isOpen} isCentered size={'3xl'}>
                 <ModalOverlay />
                 <ModalContent>
                     <ModalHeader>SQL 预览</ModalHeader>
@@ -107,6 +111,11 @@ function SQLPreview() {
                             />
                         </Box>
                     </ModalBody>
+                    <ModalFooter>
+                        <Button onClick={onCopy} ml={2}>
+                            {hasCopied ? '已复制' : '复制'}
+                        </Button>
+                    </ModalFooter>
                 </ModalContent>
             </Modal>
         </>
