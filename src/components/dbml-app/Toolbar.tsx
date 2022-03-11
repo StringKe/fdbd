@@ -1,5 +1,4 @@
 import {
-    Avatar,
     Box,
     Button,
     ButtonGroup,
@@ -17,6 +16,7 @@ import {
     ModalHeader,
     ModalOverlay,
     useDisclosure,
+    VStack,
 } from '@chakra-ui/react'
 import Editor from '@monaco-editor/react'
 import React from 'react'
@@ -26,6 +26,7 @@ import { ModelExporter, Parser } from '@dbml/core'
 import { useRecoilState } from 'recoil'
 
 import { dbmlRaw } from './store'
+import useMobile from './utils/useMobile'
 
 function SQLPreview() {
     const [dbmlStr] = useRecoilState(dbmlRaw)
@@ -112,7 +113,24 @@ function SQLPreview() {
     )
 }
 
-export default function Toolbar() {
+function FileButton() {
+    return (
+        <Menu>
+            <MenuButton as={Button} rightIcon={<FiChevronDown />} mr={2}>
+                文件
+            </MenuButton>
+            <MenuList>
+                <MenuItem>下载</MenuItem>
+                <MenuItem>保存</MenuItem>
+                <MenuItem>另存为</MenuItem>
+                <MenuItem>副本</MenuItem>
+                <MenuItem>删除</MenuItem>
+            </MenuList>
+        </Menu>
+    )
+}
+
+function PCToolbar() {
     return (
         <Flex
             width={'full'}
@@ -122,20 +140,9 @@ export default function Toolbar() {
             alignItems={'center'}
             px={4}
         >
-            <Menu>
-                <MenuButton as={Button} rightIcon={<FiChevronDown />} mr={2}>
-                    文件
-                </MenuButton>
-                <MenuList>
-                    <MenuItem>下载</MenuItem>
-                    <MenuItem>另存为</MenuItem>
-                    <MenuItem>副本</MenuItem>
-                    <MenuItem>删除</MenuItem>
-                </MenuList>
-            </Menu>
+            <FileButton />
 
             <SQLPreview />
-            <Button mr={2}>保存</Button>
 
             <HStack mx={'auto !important'}>
                 <ButtonGroup isAttached variant='outline'>
@@ -145,12 +152,7 @@ export default function Toolbar() {
             </HStack>
 
             <HStack>
-                <Menu>
-                    <Avatar as={MenuButton} size={'sm'} name={'青木'} mr={2} />
-                    <MenuList>
-                        <MenuItem>退出登录</MenuItem>
-                    </MenuList>
-                </Menu>
+                <Button>未连接后端</Button>
 
                 <Box borderLeftWidth={2} pl={4}>
                     <Button as={Link} href={'https://github.com/StringKe/fdbd'}>
@@ -161,4 +163,32 @@ export default function Toolbar() {
             </HStack>
         </Flex>
     )
+}
+
+function MobileToolbar() {
+    return (
+        <Flex width={'full'} borderBottomWidth={2} alignItems={'center'} p={2}>
+            <VStack width={'full'}>
+                <HStack w={'full'}>
+                    <FileButton />
+                    <Button ml={'auto !important'}>未连接后端</Button>
+                </HStack>
+
+                <HStack w={'full'}>
+                    <Button flex={1}>保存</Button>
+                    <Button flex={1}>预览 SQL</Button>
+                </HStack>
+                <HStack w={'full'}>
+                    <Button flex={1}>撤回</Button>
+                    <Button flex={1}>重做</Button>
+                </HStack>
+            </VStack>
+        </Flex>
+    )
+}
+
+export default function Toolbar() {
+    const isMobile = useMobile()
+
+    return !isMobile ? <PCToolbar /> : <MobileToolbar />
 }
