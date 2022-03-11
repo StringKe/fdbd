@@ -1,6 +1,5 @@
 import { Box } from '@chakra-ui/react'
 import React from 'react'
-import { useRoutes } from 'react-router-dom'
 
 import wrapLayout from '../layout'
 
