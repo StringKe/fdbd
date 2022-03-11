@@ -31,17 +31,20 @@ export default function CodePreview() {
     const [direction, setDirection] = React.useState('TB')
     const activityColor = useToken('colors', 'blue.100')
 
-    const updateLayout = React.useCallback(() => {
-        const layoutedElements = CalcLayout(elements, direction, zoom)
-        setElements(layoutedElements)
-        setTimeout(() => {
-            flowHelper.fitView()
-        }, 50)
-    }, [direction, elements, flowHelper, zoom])
+    const updateLayout = React.useCallback(
+        (dir?: string) => {
+            const layoutedElements = CalcLayout(elements, dir, zoom)
+            setElements(layoutedElements)
+            setTimeout(() => {
+                flowHelper.fitView()
+            }, 50)
+        },
+        [elements, flowHelper, zoom]
+    )
 
     const { run: updateLayoutByDbmlChange } = useDebounceFn(
         () => {
-            updateLayout()
+            updateLayout(direction)
         },
         { wait: 200 }
     )
@@ -53,7 +56,7 @@ export default function CodePreview() {
     const changeLayout = React.useCallback(
         (direction) => {
             setDirection(direction)
-            updateLayout()
+            updateLayout(direction)
         },
         [updateLayout]
     )
