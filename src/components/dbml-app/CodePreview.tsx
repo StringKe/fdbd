@@ -13,7 +13,7 @@ import ReactFlow, {
     useZoomPanHelper,
 } from 'react-flow-renderer'
 
-import { useSize } from 'ahooks'
+import { useDebounceFn, useSize } from 'ahooks'
 import { useRecoilState } from 'recoil'
 
 import { nodeTypes } from './node'
@@ -29,6 +29,22 @@ export default function CodePreview() {
     const flowHelper = useZoomPanHelper()
     const [, , zoom] = useStoreState((state) => state.transform)
     const [direction, setDirection] = React.useState('TB')
+
+    const updateLayout = React.useCallback(() => {
+        const layoutedElements = CalcLayout(elements, direction, zoom)
+        setElements(layoutedElements)
+        setTimeout(() => {
+            flowHelper.fitView()
+        }, 50)
+    }, [direction, elements, flowHelper, zoom])
+
+    const { run: updateLayoutByDbmlChange } = useDebounceFn(
+        () => {
+            updateLayout()
+        },
+        { wait: 200 }
+    )
+
     React.useEffect(() => {
         flowHelper.fitView()
     }, [flowHelper, size])
@@ -36,13 +52,9 @@ export default function CodePreview() {
     const changeLayout = React.useCallback(
         (direction) => {
             setDirection(direction)
-            const layoutedElements = CalcLayout(elements, direction, zoom)
-            setElements(layoutedElements)
-            setTimeout(() => {
-                flowHelper.fitView()
-            }, 50)
+            updateLayout()
         },
-        [flowHelper, elements, zoom]
+        [updateLayout]
     )
 
     const onConnect = React.useCallback((params) => setElements((els) => addEdge(params, els)), [])
@@ -50,13 +62,10 @@ export default function CodePreview() {
     React.useEffect(() => {
         if (dbml) {
             const elements = toFlow(dbml)
-            const layoutedElements = CalcLayout(elements, direction, zoom)
-            setElements(layoutedElements)
-            setTimeout(() => {
-                flowHelper.fitView()
-            }, 50)
+            setElements(elements)
+            updateLayoutByDbmlChange()
         }
-    }, [dbml, direction, flowHelper, zoom])
+    }, [dbml, updateLayoutByDbmlChange])
 
     return (
         <Box ref={ref} flex={1} pos={'relative'} borderLeftWidth={1} overflow={'hidden'}>
