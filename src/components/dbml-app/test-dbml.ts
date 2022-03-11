@@ -1,13 +1,15 @@
-export const TestDBML = `Project TestProject {
+export const TestDBML = ` // 项目名称
+Project TestProject {
+  // 数据库类型 mysql postgres mssql
   database_type: 'mysql'
+  // 描述
   Note: 'Description of the project'
 }
-//// -- LEVEL 1
-//// -- Tables and References
 
-// Creating tables
+// 创建表
 Table users as U {
-  id int [pk, increment] // auto-increment
+  // pk 主键 increment 自增
+  id int [pk, increment]
   full_name varchar
   created_at timestamp
   country_code int
@@ -17,57 +19,58 @@ Table countries {
   code int [pk]
   name varchar
   continent_name varchar
- }
+}
 
-// Creating references
-// You can also define relaionship separately
-// > many-to-one; < one-to-many; - one-to-one
+// 创建关联关系
+// > 多对一
+// < 一对多
+// - 一对一
 Ref: U.country_code > countries.code
 Ref: merchants.country_code > countries.code
 
-//----------------------------------------------//
-
-//// -- LEVEL 2
-//// -- Adding column settings
-
 Table order_items {
-  order_id int [ref: > orders.id] // inline relationship (many-to-one)
+  // 行内一对多关联
+  order_id int [ref: > orders.id]
   product_id int
-  quantity int [default: 1] // default value
+  // 默认值
+  quantity int [default: 1]
 }
 
 Ref: order_items.product_id > products.id
 
 Table orders {
-  id int [pk] // primary key
+  // 主键 pk
+  id int [pk]
+  // 不为空，唯一键
   user_id int [not null, unique]
   status varchar
-  created_at varchar [note: 'When order created', not null] // add column note
+  // 字段备注，并且不为空
+  created_at varchar [note: 'When order created', not null]
 }
 
-//----------------------------------------------//
-
-//// -- Level 3
-//// -- Enum, Indexes
-
-// Enum for 'products' table below
+// 常量
 Enum products_status {
   out_of_stock
   in_stock
-  running_low [note: 'less than 20'] // add column note
+  // 备注
+  running_low [note: 'less than 20']
 }
 
-// Indexes: You can define a single or multi-column index
+// 复合使用
 Table products {
   id int [pk]
   name varchar
   merchant_id int [not null]
   price int
   status products_status
+  // 默认值为函数
   created_at datetime [default: \`now()\`]
 
+  // 创建缩影
   Indexes {
+    // 当前的 merchant_id 和 status 创建索引名字为 product_status
     (merchant_id, status) [name:'product_status']
+    // 设置唯一键
     id [unique]
   }
 }
@@ -77,8 +80,10 @@ Table merchants {
   country_code int
   merchant_name varchar
 
+  // 包含特殊字符的字段
   "created at" varchar
   admin_id int [ref: > U.id]
+  
   Indexes {
     (id, country_code) [pk]
   }
@@ -92,7 +97,7 @@ Table merchant_periods {
   end_date datetime
 }
 
-Ref: products.merchant_id > merchants.id // many-to-one
-//composite foreign key
+Ref: products.merchant_id > merchants.id
+// 复合外建 一对多
 Ref: merchant_periods.(merchant_id, country_code) > merchants.(id, country_code)
 `
