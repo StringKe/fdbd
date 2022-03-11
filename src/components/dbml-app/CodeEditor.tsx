@@ -1,26 +1,27 @@
 import { Box } from '@chakra-ui/react'
-import Editor, { OnChange, OnMount } from '@monaco-editor/react'
+import Editor, { OnMount } from '@monaco-editor/react'
 import React from 'react'
 
 import { Parser as DBMLParser } from '@dbml/core'
-import { useInterval, useMount } from 'ahooks'
+import { useMount } from 'ahooks'
 import { get } from 'lodash'
+import { editor } from 'monaco-editor'
 import { useRecoilState } from 'recoil'
 
 import { dbmlError, dbmlRaw, dbmlStore } from './store'
 
 export default function CodeEditor() {
-    const editorRef = React.useRef(null)
+    const editorRef = React.useRef<editor.IStandaloneCodeEditor>()
     const [, setDbml] = useRecoilState(dbmlStore)
     const [dbmlStr, setDbmlStr] = useRecoilState(dbmlRaw)
     const [, setError] = useRecoilState(dbmlError)
 
-    const handleEditorDidMount = React.useCallback<OnMount>((editor, monaco) => {
+    const handleEditorDidMount = React.useCallback<OnMount>((editor, _) => {
         editorRef.current = editor
     }, [])
 
-    const handleEditorChange = React.useCallback<OnChange>(
-        (value) => {
+    const handleEditorChange = React.useCallback(
+        (value: string | undefined) => {
             if (value) {
                 try {
                     const data = DBMLParser.parseDBMLToJSON(value)
@@ -37,15 +38,10 @@ export default function CodeEditor() {
         [setDbml, setDbmlStr, setError]
     )
 
-    // 每隔一定时间自动更新
-    useInterval(() => {
-        handleEditorChange(dbmlStr, undefined)
-    }, 1000 * 30)
-
     useMount(() => {
         // 如果初次第一次挂载的内容不为空则尝试更新内容。
         if (dbmlStr.length > 1) {
-            handleEditorChange(dbmlStr, undefined)
+            handleEditorChange(dbmlStr)
         }
     })
 
