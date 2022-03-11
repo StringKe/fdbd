@@ -161,7 +161,7 @@ function PCToolbar() {
             </HStack>
 
             <HStack>
-                <Button>未连接后端</Button>
+                <Button>离线模式</Button>
 
                 <Box borderLeftWidth={2} pl={4}>
                     <Button as={Link} href={'https://github.com/StringKe/fdbd'}>
@@ -180,7 +180,7 @@ function MobileToolbar() {
             <VStack width={'full'}>
                 <HStack w={'full'}>
                     <FileButton />
-                    <Button ml={'auto !important'}>未连接后端</Button>
+                    <Button ml={'auto !important'}>离线模式</Button>
                 </HStack>
 
                 <HStack w={'full'}>
