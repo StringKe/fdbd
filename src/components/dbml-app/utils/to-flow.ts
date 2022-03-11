@@ -12,7 +12,7 @@ export function getFieldType(field: ITableColumn) {
     }) as { type_name: string; args: any }
 }
 
-export default function toFlow(dbml: RawDatabase): Elements {
+export default function toFlow(dbml: RawDatabase, isSmart = false): Elements {
     const result: Elements = []
     const fullEnumNames = dbml.enums.map((i) => i.name)
     const fullNodeNames: string[] = [...dbml.tables.map((i) => i.name), ...fullEnumNames]
@@ -29,7 +29,7 @@ export default function toFlow(dbml: RawDatabase): Elements {
     }
 
     const allRefs = dbml.refs
-        .map(({ endpoints: [from, to] }) => {
+        .map(({ endpoints: [to, from] }) => {
             return from.fieldNames.map((fieldName, index) => {
                 return {
                     from: { ...from, fieldNames: fieldName },
@@ -92,8 +92,8 @@ export default function toFlow(dbml: RawDatabase): Elements {
             target,
             sourceHandle,
             targetHandle,
-            type: ConnectionLineType.SmoothStep,
-            arrowHeadType: ArrowHeadType.Arrow,
+            type: !isSmart ? ConnectionLineType.SmoothStep : 'smart',
+            arrowHeadType: ArrowHeadType.ArrowClosed,
             animated: false,
         })
     })

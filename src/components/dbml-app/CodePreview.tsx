@@ -1,19 +1,26 @@
 import { Box, useToken } from '@chakra-ui/react'
+import SmartEdge from '@tisoap/react-flow-smart-edge'
 import React from 'react'
 import ReactFlow, {
     addEdge,
     Background,
     BackgroundVariant,
+    BezierEdge,
     ConnectionLineType,
+    ConnectionMode,
     ControlButton,
     Controls,
     Elements,
     MiniMap,
+    SmoothStepEdge,
+    StepEdge,
+    StraightEdge,
     useStoreState,
     useZoomPanHelper,
 } from 'react-flow-renderer'
+import { SiSmartthings } from 'react-icons/si'
 
-import { useDebounceFn, useSize } from 'ahooks'
+import { useBoolean, useDebounceFn, useSize } from 'ahooks'
 import { useRecoilState } from 'recoil'
 
 import { nodeTypes } from './node'
@@ -30,6 +37,7 @@ export default function CodePreview() {
     const [, , zoom] = useStoreState((state) => state.transform)
     const [direction, setDirection] = React.useState('TB')
     const activityColor = useToken('colors', 'blue.100')
+    const [isSmart, { toggle: toggleSmart }] = useBoolean(false)
 
     const updateLayout = React.useCallback(
         (dir?: string) => {
@@ -65,11 +73,11 @@ export default function CodePreview() {
 
     React.useEffect(() => {
         if (dbml) {
-            const elements = toFlow(dbml)
+            const elements = toFlow(dbml, isSmart)
             setElements(elements)
             updateLayoutByDbmlChange()
         }
-    }, [dbml, updateLayoutByDbmlChange])
+    }, [dbml, updateLayoutByDbmlChange, isSmart])
 
     return (
         <Box ref={ref} flex={1} pos={'relative'} borderLeftWidth={1} overflow={'hidden'}>
@@ -77,7 +85,15 @@ export default function CodePreview() {
                 elements={elements}
                 nodeTypes={nodeTypes}
                 connectionLineType={ConnectionLineType.SmoothStep}
+                connectionMode={ConnectionMode.Loose}
                 onConnect={onConnect}
+                edgeTypes={{
+                    smart: SmartEdge,
+                    bezier: BezierEdge,
+                    smoothstep: SmoothStepEdge,
+                    step: StepEdge,
+                    straight: StraightEdge,
+                }}
             >
                 <Background
                     variant={BackgroundVariant.Dots}
@@ -108,6 +124,14 @@ export default function CodePreview() {
                         onClick={() => changeLayout('LR')}
                     >
                         H
+                    </ControlButton>
+                    <ControlButton
+                        style={{
+                            backgroundColor: isSmart ? activityColor : '#fefefe',
+                        }}
+                        onClick={() => toggleSmart()}
+                    >
+                        <SiSmartthings />
                     </ControlButton>
                 </Controls>
             </ReactFlow>
