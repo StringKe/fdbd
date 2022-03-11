@@ -5,6 +5,7 @@ import {
     ButtonGroup,
     Flex,
     HStack,
+    Link,
     Menu,
     MenuButton,
     MenuItem,
@@ -19,7 +20,7 @@ import {
 } from '@chakra-ui/react'
 import Editor from '@monaco-editor/react'
 import React from 'react'
-import { FiChevronDown } from 'react-icons/fi'
+import { FiChevronDown, FiGithub } from 'react-icons/fi'
 
 import { ModelExporter, Parser } from '@dbml/core'
 import { useRecoilState } from 'recoil'
@@ -145,14 +146,18 @@ export default function Toolbar() {
 
             <HStack>
                 <Menu>
-                    <Avatar as={MenuButton} size={'sm'} name={'青木'} />
+                    <Avatar as={MenuButton} size={'sm'} name={'青木'} mr={2} />
                     <MenuList>
-                        <MenuItem>下载</MenuItem>
-                        <MenuItem>另存为</MenuItem>
-                        <MenuItem>副本</MenuItem>
-                        <MenuItem>删除</MenuItem>
+                        <MenuItem>退出登录</MenuItem>
                     </MenuList>
                 </Menu>
+
+                <Box borderLeftWidth={2} pl={4}>
+                    <Button as={Link} href={'https://github.com/StringKe/fdbd'}>
+                        <FiGithub style={{ marginRight: '4px' }} />
+                        源码
+                    </Button>
+                </Box>
             </HStack>
         </Flex>
     )
