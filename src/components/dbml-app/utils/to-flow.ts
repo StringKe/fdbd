@@ -86,8 +86,6 @@ export default function toFlow(dbml: RawDatabase): Elements {
         const sourceHandle = `${from.fieldNames}-source`
         const targetHandle = `${to.fieldNames}-target`
 
-        console.log(source, sourceHandle, target, targetHandle)
-
         result.push({
             id: `${source}-${sourceHandle}.${target}-${targetHandle}`,
             source,

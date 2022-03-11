@@ -12,3 +12,8 @@ export const dbmlStore = atom<RawDatabase | undefined>({
     key: 'dbmlStore',
     default: undefined,
 })
+
+export const dbmlError = atom<string>({
+    key: 'dbmlError',
+    default: '',
+})

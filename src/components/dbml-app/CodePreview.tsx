@@ -18,7 +18,7 @@ import { useRecoilState } from 'recoil'
 
 import { nodeTypes } from './node'
 import { dbmlStore } from './store'
-import layout from './utils/layout'
+import { default as CalcLayout } from './utils/layout'
 import toFlow from './utils/to-flow'
 
 export default function CodePreview() {
@@ -28,14 +28,15 @@ export default function CodePreview() {
     const size = useSize(ref)
     const flowHelper = useZoomPanHelper()
     const [, , zoom] = useStoreState((state) => state.transform)
-
+    const [direction, setDirection] = React.useState('TB')
     React.useEffect(() => {
         flowHelper.fitView()
     }, [flowHelper, size])
 
     const changeLayout = React.useCallback(
         (direction) => {
-            const layoutedElements = layout(elements, direction, zoom)
+            setDirection(direction)
+            const layoutedElements = CalcLayout(elements, direction, zoom)
             setElements(layoutedElements)
             setTimeout(() => {
                 flowHelper.fitView()
@@ -48,9 +49,14 @@ export default function CodePreview() {
 
     React.useEffect(() => {
         if (dbml) {
-            setElements(toFlow(dbml))
+            const elements = toFlow(dbml)
+            const layoutedElements = CalcLayout(elements, direction, zoom)
+            setElements(layoutedElements)
+            setTimeout(() => {
+                flowHelper.fitView()
+            }, 50)
         }
-    }, [dbml])
+    }, [dbml, direction, flowHelper, zoom])
 
     return (
         <Box ref={ref} flex={1} pos={'relative'} borderLeftWidth={1} overflow={'hidden'}>

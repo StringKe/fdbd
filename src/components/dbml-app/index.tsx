@@ -3,6 +3,7 @@ import React from 'react'
 import { ReactFlowProvider } from 'react-flow-renderer'
 
 import Container from './Container'
+import TipBar from './TipBar'
 import Toolbar from './Toolbar'
 
 export function DbmlApp() {
@@ -21,6 +22,7 @@ export function DbmlApp() {
             >
                 <Toolbar />
                 <Container />
+                <TipBar />
             </Flex>
         </ReactFlowProvider>
     )
