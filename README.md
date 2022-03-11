@@ -15,3 +15,7 @@
 - [ ] 版本管理，差异对比
 - [ ] 自动化生成测试数据
 - [ ] 多语言模型生成 (差异化生成，查询客户端)
+
+## 预览地址
+1. [国外 访问地址一 fdbd.app](https://fdbd.app/)  https://fdbd.app/
+2. [国内 访问地址一 fdbd.bhi.cc](https://fdbd.bhi.cc/)  https://fdbd.bhi.cc/

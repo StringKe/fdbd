@@ -1,6 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import { BrowserRouter } from 'react-router-dom'
+import { BrowserRouter, HashRouter } from 'react-router-dom'
 
 import { RecoilRoot } from 'recoil'
 
@@ -8,24 +8,14 @@ import reportWebVitals from './reportWebVitals'
 import AppRouter from './Router'
 import { ThemeProvider } from './theme'
 
-// ReactDOM.render(
-//     <React.StrictMode>
-//         <RecoilRoot>
-//             <ThemeProvider>
-//                 <BrowserRouter>
-//                     <AppRouter />
-//                 </BrowserRouter>
-//             </ThemeProvider>
-//         </RecoilRoot>
-//     </React.StrictMode>,
-//     document.getElementById('root')
-// )
+const RouterDispatch = window.location.host.includes('bhi.cc') ? HashRouter : BrowserRouter
+
 ReactDOM.render(
     <RecoilRoot>
         <ThemeProvider>
-            <BrowserRouter>
+            <RouterDispatch>
                 <AppRouter />
-            </BrowserRouter>
+            </RouterDispatch>
         </ThemeProvider>
     </RecoilRoot>,
     document.getElementById('root')
