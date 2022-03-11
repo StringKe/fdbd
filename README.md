@@ -2,6 +2,8 @@
 
 -------
 
+[![](https://cloudbase.net/deploy.svg)](https://console.cloud.tencent.com/webify/new?tpl=https%3A%2F%2Fgithub.com%2FStringKe%2Ffdbd&reponame=fdbd)
+
 # FDBD
 通过 DBML (Database Markup Language) 进行，快速数据库设计的工具，
 
