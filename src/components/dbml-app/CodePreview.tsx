@@ -29,6 +29,7 @@ export default function CodePreview() {
     const flowHelper = useZoomPanHelper()
     const [, , zoom] = useStoreState((state) => state.transform)
     const [direction, setDirection] = React.useState('TB')
+    const activityColor = useToken('colors', 'blue.100')
 
     const updateLayout = React.useCallback(() => {
         const layoutedElements = CalcLayout(elements, direction, zoom)
@@ -89,8 +90,22 @@ export default function CodePreview() {
                     maskColor={useToken('colors', 'gray.200')}
                 />
                 <Controls>
-                    <ControlButton onClick={() => changeLayout('TB')}>V</ControlButton>
-                    <ControlButton onClick={() => changeLayout('LR')}>H</ControlButton>
+                    <ControlButton
+                        style={{
+                            backgroundColor: direction === 'TB' ? activityColor : '#fefefe',
+                        }}
+                        onClick={() => changeLayout('TB')}
+                    >
+                        V
+                    </ControlButton>
+                    <ControlButton
+                        style={{
+                            backgroundColor: direction === 'LR' ? activityColor : '#fefefe',
+                        }}
+                        onClick={() => changeLayout('LR')}
+                    >
+                        H
+                    </ControlButton>
                 </Controls>
             </ReactFlow>
         </Box>
