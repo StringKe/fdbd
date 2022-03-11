@@ -3,6 +3,7 @@ import Editor, { OnChange, OnMount } from '@monaco-editor/react'
 import React from 'react'
 
 import { Parser as DBMLParser } from '@dbml/core'
+import { useInterval, useMount } from 'ahooks'
 import { get } from 'lodash'
 import { useRecoilState } from 'recoil'
 
@@ -35,6 +36,18 @@ export default function CodeEditor() {
         },
         [setDbml, setDbmlStr, setError]
     )
+
+    // 每隔一定时间自动更新
+    useInterval(() => {
+        handleEditorChange(dbmlStr, undefined)
+    }, 1000 * 30)
+
+    useMount(() => {
+        // 如果初次第一次挂载的内容不为空则尝试更新内容。
+        if (dbmlStr.length > 1) {
+            handleEditorChange(dbmlStr, undefined)
+        }
+    })
 
     return (
         <Box flex={1} pos={'relative'} borderRightWidth={1}>
