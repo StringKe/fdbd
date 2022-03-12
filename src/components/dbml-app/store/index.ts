@@ -3,17 +3,19 @@ import { atom } from 'recoil'
 
 import { TestDBML } from '../test-dbml'
 
-export const dbmlRaw = atom<string>({
+export * from './online-mod'
+
+export const _dbmlRaw = atom<string>({
     key: 'dbmlRaw',
     default: TestDBML,
 })
 
-export const dbmlStore = atom<RawDatabase | undefined>({
+export const _dbmlStore = atom<RawDatabase | undefined>({
     key: 'dbmlStore',
     default: undefined,
 })
 
-export const dbmlError = atom<string>({
+export const _dbmlError = atom<string>({
     key: 'dbmlError',
     default: '',
 })

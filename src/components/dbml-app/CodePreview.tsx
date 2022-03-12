@@ -24,13 +24,13 @@ import { useBoolean, useDebounceFn, useSize } from 'ahooks'
 import { useRecoilState } from 'recoil'
 
 import { nodeTypes } from './node'
-import { dbmlStore } from './store'
+import { _dbmlStore } from './store'
 import { default as CalcLayout } from './utils/layout'
 import toFlow from './utils/to-flow'
 
 export default function CodePreview() {
     const ref = React.useRef<HTMLDivElement>(null)
-    const [dbml] = useRecoilState(dbmlStore)
+    const [dbml] = useRecoilState(_dbmlStore)
     const [elements, setElements] = React.useState<Elements>([])
     const size = useSize(ref)
     const flowHelper = useZoomPanHelper()

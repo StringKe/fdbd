@@ -2,10 +2,10 @@ import { Flex } from '@chakra-ui/react'
 
 import { useRecoilState } from 'recoil'
 
-import { dbmlError } from './store'
+import { _dbmlError } from './store'
 
 export default function TipBar() {
-    const [error] = useRecoilState(dbmlError)
+    const [error] = useRecoilState(_dbmlError)
     return (
         <Flex
             width={'full'}
