@@ -2,7 +2,6 @@ import { Box, useToken } from '@chakra-ui/react'
 import SmartEdge from '@tisoap/react-flow-smart-edge'
 import React from 'react'
 import ReactFlow, {
-    addEdge,
     Background,
     BackgroundVariant,
     BezierEdge,
@@ -69,13 +68,24 @@ export default function CodePreview() {
         [updateLayout]
     )
 
-    const onConnect = React.useCallback((params) => setElements((els) => addEdge(params, els)), [])
+    // const onConnect = React.useCallback((params) => setElements((els) => addEdge(params, els)), [])
 
     React.useEffect(() => {
         if (dbml) {
             const elements = toFlow(dbml, isSmart)
             setElements(elements)
             updateLayoutByDbmlChange()
+        } else {
+            setElements([
+                {
+                    id: 'error',
+                    type: 'error',
+                    data: {
+                        name: 'Error',
+                    },
+                    position: { x: 0, y: 0 },
+                },
+            ])
         }
     }, [dbml, updateLayoutByDbmlChange, isSmart])
 
@@ -86,7 +96,7 @@ export default function CodePreview() {
                 nodeTypes={nodeTypes}
                 connectionLineType={ConnectionLineType.SmoothStep}
                 connectionMode={ConnectionMode.Loose}
-                onConnect={onConnect}
+                // onConnect={onConnect}
                 edgeTypes={{
                     smart: SmartEdge,
                     bezier: BezierEdge,

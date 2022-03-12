@@ -1,18 +1,17 @@
 import { Button, ButtonProps, useToast } from '@chakra-ui/react'
 
 import { get } from 'lodash'
-import { useRecoilState } from 'recoil'
 
-import { _dbmlRaw } from '../store'
+import useDbmlDispatch from '../utils/useDbmlDispatch'
 import useReadFile from '../utils/useReadFile'
 
 export default function LoadFileButton(props: ButtonProps) {
     const toast = useToast()
-    const [, setDbmlStr] = useRecoilState(_dbmlRaw)
+    const dbmlDispatch = useDbmlDispatch()
     const onClick = useReadFile((file) => {
         file.text()
             .then((textContent) => {
-                setDbmlStr(textContent)
+                dbmlDispatch(textContent)
             })
             .catch((err) => {
                 toast({
