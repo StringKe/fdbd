@@ -34,7 +34,7 @@ export default function CodePreview() {
     const size = useSize(ref)
     const flowHelper = useZoomPanHelper()
     const [, , zoom] = useStoreState((state) => state.transform)
-    const [direction, setDirection] = React.useState('TB')
+    const [direction, setDirection] = React.useState('LR')
     const activityColor = useToken('colors', 'blue.100')
     const [isSmart, { toggle: toggleSmart }] = useBoolean(false)
 
