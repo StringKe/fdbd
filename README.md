@@ -22,3 +22,7 @@
 
 1. [国外 访问地址一 fdbd.app](https://fdbd.app/) https://fdbd.app/
 2. [国内 访问地址一 fdbd.bhi.cc](https://fdbd.bhi.cc/) https://fdbd.bhi.cc/
+
+## 社群
+
+QQ 群: 516165271
