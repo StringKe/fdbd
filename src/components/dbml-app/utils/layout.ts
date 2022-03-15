@@ -19,12 +19,6 @@ export default function layout(
     dagreGraph.setGraph({
         rankdir: direction,
         ranker: 'tight-tree',
-        compound: true,
-        nodesep: 100,
-        edgesep: 200,
-        ranksep: 100,
-        marginx: 50,
-        marginy: 50,
         align: 'DR',
     })
 

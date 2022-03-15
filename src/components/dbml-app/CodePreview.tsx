@@ -1,31 +1,26 @@
 import { Box, useToken } from '@chakra-ui/react'
-import SmartEdge from '@tisoap/react-flow-smart-edge'
 import React from 'react'
 import ReactFlow, {
     Background,
     BackgroundVariant,
-    BezierEdge,
     ConnectionLineType,
     ConnectionMode,
     ControlButton,
     Controls,
     Elements,
     MiniMap,
-    SmoothStepEdge,
-    StepEdge,
-    StraightEdge,
     useStoreState,
     useZoomPanHelper,
 } from 'react-flow-renderer'
-import { SiSmartthings } from 'react-icons/si'
 
-import { useBoolean, useDebounceFn, useSize } from 'ahooks'
+import { useDebounceFn, useSize } from 'ahooks'
 import { useRecoilState } from 'recoil'
 
+import { edgeTypes } from './edge'
 import { nodeTypes } from './node'
 import { _dbmlStore } from './store'
 import { default as CalcLayout } from './utils/layout'
-import toFlow from './utils/to-flow'
+import toFlow, { EdgeType } from './utils/to-flow'
 
 export default function CodePreview() {
     const ref = React.useRef<HTMLDivElement>(null)
@@ -36,7 +31,7 @@ export default function CodePreview() {
     const [, , zoom] = useStoreState((state) => state.transform)
     const [direction, setDirection] = React.useState('LR')
     const activityColor = useToken('colors', 'blue.100')
-    const [isSmart, { toggle: toggleSmart }] = useBoolean(false)
+    const [edgeType, setEdgeType] = React.useState<EdgeType>('smart')
 
     const updateLayout = React.useCallback(
         (dir?: string) => {
@@ -72,7 +67,7 @@ export default function CodePreview() {
 
     React.useEffect(() => {
         if (dbml) {
-            const elements = toFlow(dbml, isSmart)
+            const elements = toFlow(dbml, edgeType)
             setElements(elements)
             updateLayoutByDbmlChange()
         } else {
@@ -87,7 +82,7 @@ export default function CodePreview() {
                 },
             ])
         }
-    }, [dbml, updateLayoutByDbmlChange, isSmart])
+    }, [dbml, updateLayoutByDbmlChange, edgeType])
 
     return (
         <Box ref={ref} flex={1} pos={'relative'} borderLeftWidth={1} overflow={'hidden'}>
@@ -97,13 +92,9 @@ export default function CodePreview() {
                 connectionLineType={ConnectionLineType.SmoothStep}
                 connectionMode={ConnectionMode.Loose}
                 // onConnect={onConnect}
-                edgeTypes={{
-                    smart: SmartEdge,
-                    bezier: BezierEdge,
-                    smoothstep: SmoothStepEdge,
-                    step: StepEdge,
-                    straight: StraightEdge,
-                }}
+                edgeTypes={edgeTypes}
+                snapToGrid={true}
+                snapGrid={[20, 20]}
             >
                 <Background
                     variant={BackgroundVariant.Dots}
@@ -137,11 +128,15 @@ export default function CodePreview() {
                     </ControlButton>
                     <ControlButton
                         style={{
-                            backgroundColor: isSmart ? activityColor : '#fefefe',
+                            backgroundColor: edgeType === 'smoothstep' ? activityColor : '#fefefe',
                         }}
-                        onClick={() => toggleSmart()}
+                        onClick={() =>
+                            setEdgeType(
+                                edgeType === 'smoothstep' ? 'smart' : ConnectionLineType.SmoothStep
+                            )
+                        }
                     >
-                        <SiSmartthings />
+                        S
                     </ControlButton>
                 </Controls>
             </ReactFlow>

@@ -1,9 +1,12 @@
-import { ArrowHeadType, ConnectionLineType, Elements } from 'react-flow-renderer'
+import { DeepPartial } from '@chakra-ui/react'
+import { ArrowHeadType, ConnectionLineType, Elements, FlowElement } from 'react-flow-renderer'
 
 import { RawDatabase } from '@dbml/core/types/model_structure/database'
 import { get } from 'lodash'
 
 import { ITableColumn } from '../node/types'
+
+export declare type EdgeType = ConnectionLineType | 'smart'
 
 export function getFieldType(field: ITableColumn) {
     return get(field, 'type', {
@@ -12,7 +15,22 @@ export function getFieldType(field: ITableColumn) {
     }) as { type_name: string; args: any }
 }
 
-export default function toFlow(dbml: RawDatabase, isSmart = false): Elements {
+function getEdge(
+    element: DeepPartial<FlowElement> & { id: string },
+    edgeType: EdgeType = 'smart'
+): FlowElement {
+    return {
+        ...element,
+        type: edgeType,
+        arrowHeadType: ArrowHeadType.ArrowClosed,
+        animated: false,
+    } as FlowElement
+}
+
+export default function toFlow(
+    dbml: RawDatabase,
+    edgeType: EdgeType = ConnectionLineType.SmoothStep
+): Elements {
     const result: Elements = []
     const fullEnumNames = dbml.enums.map((i) => i.name)
     const fullNodeNames: string[] = [...dbml.tables.map((i) => i.name), ...fullEnumNames]
@@ -66,15 +84,18 @@ export default function toFlow(dbml: RawDatabase, isSmart = false): Elements {
             const type = getFieldType(field)
             if (fullNodeNames.includes(type.type_name)) {
                 const enumName = type.type_name
-                result.push({
-                    id: ``,
-                    source: table.name,
-                    sourceHandle: `${field.name}-source`,
-                    target: enumName,
-                    targetHandle: 'table-target',
-                    type: ConnectionLineType.SmoothStep,
-                    animated: false,
-                })
+                result.push(
+                    getEdge(
+                        {
+                            id: `${field.name}.${table.name}-source.${enumName}-target`,
+                            source: table.name,
+                            sourceHandle: `${field.name}-source`,
+                            target: enumName,
+                            targetHandle: 'table-target',
+                        },
+                        edgeType
+                    )
+                )
             }
         })
     })
@@ -86,16 +107,18 @@ export default function toFlow(dbml: RawDatabase, isSmart = false): Elements {
         const sourceHandle = `${from.fieldNames}-source`
         const targetHandle = `${to.fieldNames}-target`
 
-        result.push({
-            id: `${source}-${sourceHandle}.${target}-${targetHandle}`,
-            source,
-            target,
-            sourceHandle,
-            targetHandle,
-            type: !isSmart ? ConnectionLineType.SmoothStep : 'smart',
-            arrowHeadType: ArrowHeadType.ArrowClosed,
-            animated: false,
-        })
+        result.push(
+            getEdge(
+                {
+                    id: `${source}-${sourceHandle}.${target}-${targetHandle}`,
+                    source,
+                    target,
+                    sourceHandle,
+                    targetHandle,
+                },
+                edgeType
+            )
+        )
     })
 
     return result
