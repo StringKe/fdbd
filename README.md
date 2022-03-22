@@ -18,7 +18,6 @@
     <a href="https://github.com/StringKe/fdbd"><img src="https://img.shields.io/github/package-json/v/stringke/fdbd" alt="version"></a>
 </p>
 
-
 [![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2FStringKe%2Ffdbd.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2FStringKe%2Ffdbd?ref=badge_large)
 
 ## 特性
