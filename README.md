@@ -10,12 +10,16 @@
 <p align="center">
     <a href="https://gitee.com/qingmus/fdbd/stargazers"><img src="https://gitee.com/qingmus/fdbd/badge/star.svg" alt="star"/></a>
     <a href="https://github.com/StringKe/fdbd/stargazers"><img src="https://img.shields.io/github/stars/StringKe/fdbd?logo=github" alt="start"/></a>
+<a href="https://app.fossa.com/projects/git%2Bgithub.com%2FStringKe%2Ffdbd?ref=badge_shield" alt="FOSSA Status"><img src="https://app.fossa.com/api/projects/git%2Bgithub.com%2FStringKe%2Ffdbd.svg?type=shield"/></a>
     <a href="https://fdbd.app/"><img src="https://vercelbadge.vercel.app/api/stringke/fdbd" alt="star"/></a>
     <a href="https://github.com/StringKe/fdbd"><img src="https://img.shields.io/github/license/stringke/fdbd" alt="license"/></a>
     <a href="https://github.com/StringKe/fdbd"><img src="https://img.shields.io/github/languages/top/stringke/fdbd" alt="languages"/></a>
     <a href="https://github.com/StringKe/fdbd"><img src="https://img.shields.io/github/commit-activity/m/stringke/fdbd" alt="commit"></a>
     <a href="https://github.com/StringKe/fdbd"><img src="https://img.shields.io/github/package-json/v/stringke/fdbd" alt="version"></a>
 </p>
+
+
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2FStringKe%2Ffdbd.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2FStringKe%2Ffdbd?ref=badge_large)
 
 ## 特性
 
