@@ -6,7 +6,7 @@
 
 # FDBD
 
-<p align="center">通过 DBML (Database Markup Language) 进行，快速数据库设计的工具，支持可视化依赖分析。</p> 
+<p align="center">通过 DBML (Database Markup Language) 进行，快速数据库设计的工具，支持可视化依赖分析。</p>
 <p align="center">
     <a href="https://gitee.com/qingmus/fdbd/stargazers"><img src="https://gitee.com/qingmus/fdbd/badge/star.svg" alt="star"/></a>
     <a href="https://github.com/StringKe/fdbd/stargazers"><img src="https://img.shields.io/github/stars/StringKe/fdbd?logo=github" alt="start"/></a>
