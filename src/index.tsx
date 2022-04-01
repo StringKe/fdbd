@@ -8,7 +8,10 @@ import reportWebVitals from './reportWebVitals'
 import AppRouter from './Router'
 import { ThemeProvider } from './theme'
 
-const RouterDispatch = window.location.host.includes('bhi.cc') ? HashRouter : BrowserRouter
+const RouterDispatch =
+    window.location.host.includes('bhi.cc') || window.location.host.includes('fdba.cn')
+        ? HashRouter
+        : BrowserRouter
 
 ReactDOM.render(
     <RecoilRoot>
