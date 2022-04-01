@@ -32,6 +32,7 @@
 
 1. [国外 访问地址一 fdbd.app](https://fdbd.app/) https://fdbd.app/
 2. [国内 访问地址一 fdbd.bhi.cc](https://fdbd.bhi.cc/) https://fdbd.bhi.cc/
+2. [国内 访问地址二 fdba.cn](https://fdba.cn/) https://fdba.cn/
 
 ## 社群
 
