@@ -21,6 +21,10 @@ function PCToolbar() {
             <SqlPreview />
 
             <HStack ml={'auto !important'}>
+                <Button as={'a'} href={'https://beian.miit.gov.cn/'} mr={2}>
+                    粤ICP备2021117808号
+                </Button>
+
                 <OnlineButton />
 
                 <GithubSourceButton />
