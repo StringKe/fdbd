@@ -2,64 +2,60 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 datasource db {
-  provider = "sqlite"
-  url      = env("DATABASE_URL")
+    // 支持的数据库类型 postgresql, mysql, mongodb, sqlite, sqlserver
+    // 完整文档
+    // https://www.prisma.io/docs/reference/api-reference/prisma-schema-reference#datasource
+    provider = "sqlite"
+    url      = env("DATABASE_URL")
 }
 
 generator client {
-  provider = "prisma-client-js"
+    provider = "prisma-client-js"
+    // 为了完整的 Ide 提示这里修改生成路径
+    output   = "../node_modules/@prisma/client/generated"
 }
 
 // --------------------------------------
 
 model User {
-  id             Int      @id @default(autoincrement())
-  createdAt      DateTime @default(now())
-  updatedAt      DateTime @updatedAt
-  name           String?
-  email          String   @unique
-  hashedPassword String?
-  role           String   @default("USER")
+    id             Int      @id @default(autoincrement())
+    nickname       String?
+    username       String?
+    email          String?  @unique
+    hashedPassword String?
+    // 使用,分割所有类型定义在 db/consts#UserRole 中
+    role           String   @default("USER")
+    createdAt      DateTime @default(now())
+    updatedAt      DateTime @updatedAt
 
-  tokens   Token[]
-  sessions Session[]
+    tokens   Token[]
+    sessions Session[]
 }
 
 model Session {
-  id                 Int       @id @default(autoincrement())
-  createdAt          DateTime  @default(now())
-  updatedAt          DateTime  @updatedAt
-  expiresAt          DateTime?
-  handle             String    @unique
-  hashedSessionToken String?
-  antiCSRFToken      String?
-  publicData         String?
-  privateData        String?
+    id        Int       @id @default(autoincrement())
+    handle    String    @unique
+    data      String
+    createdAt DateTime  @default(now())
+    updatedAt DateTime  @updatedAt
+    expiresAt DateTime?
 
-  user   User? @relation(fields: [userId], references: [id])
-  userId Int?
+    user   User? @relation(fields: [userId], references: [id])
+    userId Int?
 }
 
 model Token {
-  id          Int      @id @default(autoincrement())
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-  hashedToken String
-  type        String
-  // See note below about TokenType enum
-  // type        TokenType
-  expiresAt   DateTime
-  sentTo      String
+    id          Int      @id @default(autoincrement())
+    createdAt   DateTime @default(now())
+    updatedAt   DateTime @updatedAt
+    hashedToken String
+    // 类型定义在 db/consts#TeamType 中
+    type        String
+    expiresAt   DateTime
+    data        String
 
-  user   User @relation(fields: [userId], references: [id])
-  userId Int
+    user   User @relation(fields: [userId], references: [id])
+    userId Int
 
-  @@unique([hashedToken, type])
+    @@unique([hashedToken, type])
 }
-
-// NOTE: It's highly recommended to use an enum for the token type
-//       but enums only work in Postgres.
-//       See: https://blitzjs.com/docs/database-overview#switch-to-postgre-sql
-// enum TokenType {
-//   RESET_PASSWORD
-// }

@@ -1,19 +1,16 @@
-import { BlitzConfig, sessionMiddleware, simpleRolesIsAuthorized } from 'blitz'
+import { BlitzConfig, sessionMiddleware } from 'blitz'
 
+import { Settings } from 'luxon'
+
+import { AuthMiddleware } from './server/auth/auth.middleware'
+
+Settings.defaultZone = process.env.TIME_ZONE ?? 'Asia/Shanghai'
 const config: BlitzConfig = {
     middleware: [
         sessionMiddleware({
             cookiePrefix: 'fdbd',
-            isAuthorized: simpleRolesIsAuthorized,
+            ...AuthMiddleware,
         }),
     ],
-    /* Uncomment this to customize the webpack config
-  webpack: (config, { buildId, dev, isServer, defaultLoaders, webpack }) => {
-    // Note: we provide webpack above so you should not `require` it
-    // Perform customizations to webpack config
-    // Important: return the modified config
-    return config
-  },
-  */
 }
 module.exports = config

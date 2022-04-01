@@ -1,25 +1,23 @@
 -- CreateTable
 CREATE TABLE "User" (
     "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-    "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "updatedAt" DATETIME NOT NULL,
-    "name" TEXT,
-    "email" TEXT NOT NULL,
+    "nickname" TEXT,
+    "username" TEXT,
+    "email" TEXT,
     "hashedPassword" TEXT,
-    "role" TEXT NOT NULL DEFAULT 'USER'
+    "role" TEXT NOT NULL DEFAULT 'USER',
+    "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" DATETIME NOT NULL
 );
 
 -- CreateTable
 CREATE TABLE "Session" (
     "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    "handle" TEXT NOT NULL,
+    "data" TEXT NOT NULL,
     "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" DATETIME NOT NULL,
     "expiresAt" DATETIME,
-    "handle" TEXT NOT NULL,
-    "hashedSessionToken" TEXT,
-    "antiCSRFToken" TEXT,
-    "publicData" TEXT,
-    "privateData" TEXT,
     "userId" INTEGER,
     CONSTRAINT "Session_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User" ("id") ON DELETE SET NULL ON UPDATE CASCADE
 );
@@ -32,7 +30,7 @@ CREATE TABLE "Token" (
     "hashedToken" TEXT NOT NULL,
     "type" TEXT NOT NULL,
     "expiresAt" DATETIME NOT NULL,
-    "sentTo" TEXT NOT NULL,
+    "data" TEXT NOT NULL,
     "userId" INTEGER NOT NULL,
     CONSTRAINT "Token_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User" ("id") ON DELETE RESTRICT ON UPDATE CASCADE
 );
