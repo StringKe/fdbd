@@ -5,7 +5,7 @@ import { DateTime } from 'luxon'
 import { SessionConfig } from 'next/dist/shared/lib/utils'
 
 import { UserRole } from '../../db/consts'
-import { getAuthProvider } from './getAuthProvider'
+import { getAuthProvider } from './'
 
 export const AuthMiddleware: SessionConfig = {
     isAuthorized(data: { ctx: Ctx; args?: UserRole[] }) {
