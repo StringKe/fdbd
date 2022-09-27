@@ -1,0 +1,19 @@
+{
+    "envId": "fdbd-7g2271yq18976270",
+    "version": "2.0",
+    "$schema": "https://framework-1258016615.tcloudbaseapp.com/schema/latest.json",
+    "functionRoot": "./functions",
+    "functions": [],
+    "framework": {
+        "name": "fdbd",
+        "plugins": {
+            "react": {
+                "use": "@cloudbase/framework-plugin-website",
+                "inputs": {
+                    "buildCommand": "npm run build",
+                    "outputPath": "build"
+                }
+            }
+        }
+    }
+}
