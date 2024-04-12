@@ -58,7 +58,7 @@
   "devDependencies": {
     "@commitlint/cli": "^16.2.1",
     "@commitlint/config-conventional": "^16.2.1",
-    "@trivago/prettier-plugin-sort-imports": "^3.2.0",
+    "@trivago/prettier-plugin-sort-imports": "^4.3.0",
     "@types/dagre": "^0.7.47",
     "@types/lodash": "^4.14.179",
     "@types/pathfinding": "^0.0.5",
