@@ -32,7 +32,7 @@
 
 ## 预览地址
 
-1. [国外 访问地址一 fdbd.app](https://fdbd.vercel.app) https://fdbd.vercel.app 需要翻墙
+1. https://fdbd-o8g1xh7qg-stringke.vercel.app 需要翻墙
 
 ## 社群
 
